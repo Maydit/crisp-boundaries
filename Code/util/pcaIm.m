@@ -5,7 +5,7 @@ function [im] = pcaIm(im)
         
     %[U,mu] = pca(X');
     %Y = pcaApply( X', U, mu, size(im,3) )';
-    [~,Y] = princomp(X);
+    [~,Y] = pca(X);
     
     im = reshape(Y,[im_size,size(im,3)]);
 end
