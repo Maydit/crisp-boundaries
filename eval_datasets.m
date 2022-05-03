@@ -1,15 +1,20 @@
 function [] = eval_datasets()
-    cd('Code')
-    folder = '..\datasets\t';
-    otherFolder = '..\datasets\e';
-    filePattern = fullfile(folder, '*.png');
+    folder = uigetdir;
+    otherFolder = uigetdir;
+    filePattern = fullfile(folder, '*.jpg');
     files = dir(filePattern);
-    for k = 1:length(files)
+    cd("Code")
+    for k = 1 :length(files)
         baseFile = files(k).name;
         fullFile = fullfile(files(k).folder, baseFile);
+        disp(fullFile);
         image = imread(fullFile);
-        [E,E_oriented] = findBoundaries(image,'speedy');
+        [E,~] = findBoundaries(image,'speedy');
         result = 1-mat2gray(E);
-        imwrite(result, fullfile(otherFolder, baseFile));
+        newname = fullfile(otherFolder, baseFile);
+        if exist(newname, 'file')
+            delete(newname);
+        end
+        imwrite(result, newname, 'jpg');
     end
 end
